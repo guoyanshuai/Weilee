@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.guide.xiaoguo.weilee.activity.LoginActivity">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#36648B"
+        android:fitsSystemWindows="true"
+        android:text="用户登录"
+        android:textAlignment="center"
+        android:textSize="20dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_wilee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:src="@mipmap/wileelog" />
+
+        <LinearLayout
+            android:id="@+id/log_ll_main"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/iv_wilee"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/user"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:drawableLeft="@mipmap/userleft"
+                android:hint="用户名"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textAlignment="center" />
+
+            <EditText
+                android:id="@+id/pwd"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:drawableLeft="@mipmap/pwdleft"
+                android:hint="密   码"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:textAlignment="center" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="200dp"
+                android:layout_height="30dp">
+                <RadioButton
+                    android:id="@+id/rb_save_pwd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="记住密码"/>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/submit_btn"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_gravity="center"
+        android:background="@mipmap/submit"
+        android:text="登      录"/>
+</LinearLayout>

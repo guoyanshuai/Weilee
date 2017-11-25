@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.guide.xiaoguo.weilee.activity.MainActivity">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="	#9000FFFF"
+        android:text="首页"
+        android:fitsSystemWindows="true"
+        android:textSize="20dp"
+        android:textAlignment="center" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        android:orientation="vertical"
+        >
+
+        <Button
+            android:id="@+id/rt_btn"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/rt_background"
+            android:text="实时数据"
+            android:layout_margin="20dp"
+            android:textSize="30dp"/>
+
+        <Button
+            android:id="@+id/his_btn"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/history_background"
+            android:text="历史数据"
+            android:layout_margin="20dp"
+            android:textSize="30dp"/>
+
+        <Button
+            android:id="@+id/gps_btn"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/gps_background"
+            android:text="GPS数据"
+            android:layout_margin="20dp"
+            android:textSize="30dp"/>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.guide.xiaoguo.weilee.activity.RT_Activity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:fitsSystemWindows="true"
+        android:background="	#36648B">
+
+        <ImageView
+            android:id="@+id/back_home"
+            android:layout_marginLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/backlog"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="8"
+            android:layout_height="50dp"
+            android:background="#00ffffff"
+            android:fitsSystemWindows="true"
+            android:layout_gravity="center"
+            android:text="GPS定位"
+            android:textColor="#fff"
+            android:textSize="20dp" />
+
+        <Button
+            android:id="@+id/done"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:background="#00ffffff"
+            android:textSize="15dp"
+            android:layout_gravity="center"
+            android:textColor="#fff"
+            android:text="完成" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="分组:"
+                android:textAlignment="center"
+                android:textSize="20dp" />
+
+            <Spinner
+                android:id="@+id/gps_g_spinner"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="match_parent"
+                android:textAlignment="center"></Spinner>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="设备:"
+                android:textAlignment="center"
+                android:textSize="20dp" />
+
+            <Spinner
+                android:id="@+id/gps_d_spinner"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="match_parent"
+                android:textAlignment="center"></Spinner>
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="#E8E8E8"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+        <RadioGroup
+            android:id="@+id/check_RG"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rt_rg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="实时数据" />
+
+            <RadioButton
+                android:id="@+id/his_rg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="历史数据" />
+
+            <RadioButton
+                android:id="@+id/track_rg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="轨迹回放" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="#E8E8E8"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="开始时间"/>
+            <EditText
+                android:id="@+id/gps_b_time"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:textSize="10dp"
+                android:layout_height="wrap_content"
+                android:drawableRight="@mipmap/timeright"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="结束时间"/>
+            <EditText
+                android:id="@+id/gps_e_time"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:textSize="10dp"
+                android:layout_height="wrap_content"
+                android:drawableRight="@mipmap/timeright"/>
+        </LinearLayout>
+    </LinearLayout>
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></com.baidu.mapapi.map.MapView>
+</LinearLayout>
