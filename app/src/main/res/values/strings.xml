@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">为立云</string>
+    <string name="app_name">为立冷链</string>
     <string name="help">1.输入打印机名称--&amp;gt;打开(只能打开已配对的设备)\n
     					2.菜单--&amp;gt;打开连接(可打开已配对设备与新设备)</string>
     <string name="input_printer_name">打印机名称</string>

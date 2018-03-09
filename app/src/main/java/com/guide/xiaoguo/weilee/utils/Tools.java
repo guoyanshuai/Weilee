@@ -21,6 +21,7 @@ import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -84,10 +85,11 @@ public class Tools {
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=GBK");
     OkHttpClient okHttpClient = new OkHttpClient();
-    public  String post(String url, String json) throws IOException {
+
+    public String post(String url, String json) throws IOException {
         okHttpClient.setConnectTimeout(60, TimeUnit.SECONDS);
-        okHttpClient.setReadTimeout(100,TimeUnit.SECONDS);
-        okHttpClient.setWriteTimeout(60,TimeUnit.SECONDS);
+        okHttpClient.setReadTimeout(100, TimeUnit.SECONDS);
+        okHttpClient.setWriteTimeout(60, TimeUnit.SECONDS);
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
                 .url(url)
@@ -101,8 +103,7 @@ public class Tools {
         }
     }
 
-    public void GetDataTime(Context context,String time, final EditText textView)
-    {
+    public void GetDataTime(Context context, String time, final EditText textView) {
         TimeSelectorDialog dialog = new TimeSelectorDialog(context);
         //设置标题
         dialog.setTimeTitle("选择时间:");
@@ -127,10 +128,66 @@ public class Tools {
         dialog.show();
 
     }
-    public String getCurrentTime(){
+
+    public String getCurrentTime() {
         Date datetime = new Date(System.currentTimeMillis());
-        SimpleDateFormat sDateFormat    =   new   SimpleDateFormat("yyyy-MM-dd   HH:mm:ss");
+        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String time = sDateFormat.format(datetime);
-        return time.substring(0,18);
+        return time.substring(0, 16);
     }
-}
+
+    public static String makeChecksum(String data) {
+        if (data == null || data.equals("")) {
+            return "";
+        }
+        int total = 0;
+        int len = data.length();
+        int num = 0;
+        while (num < len) {
+            String s = data.substring(num, num + 2);
+            System.out.println(s);
+            total += Integer.parseInt(s, 16);
+            num = num + 2;
+        } /** * 用256求余最大是255，即16进制的FF */
+        int mod = total % 256;
+        String hex = Integer.toHexString(mod);
+        len = hex.length(); // 如果不够校验位的长度，补0,这里用的是两位校验
+        if (len < 2) { hex = "0" + hex; }
+        return hex;
+         }
+
+    private static String hexString="0123456789ABCDEF";
+    public static String encode(String str, String charset) throws UnsupportedEncodingException {
+        //根据默认编码获取字节数组
+        byte[] bytes=str.getBytes(charset);
+        StringBuilder sb=new StringBuilder(bytes.length*2);
+        //将字节数组中每个字节拆解成2位16进制整数
+        for(int i=0;i<bytes.length;i++){
+            sb.append(hexString.charAt((bytes[i]&0xf0)>>4));
+            sb.append(hexString.charAt((bytes[i]&0x0f)>>0));
+        }
+        return sb.toString();
+    }
+
+    public static String DecTo1ByteHexString(int b) {
+        String r = "";
+        String hex = Integer.toHexString(b & 0xFF);
+        if (hex.length() == 1) {
+            hex = '0' + hex;
+        }
+        r += hex.toUpperCase();
+        return r;
+    }
+    public static String decTo2ByteHex(int dec) {
+        String hex = "";
+        while (dec != 0) {
+            String h = Integer.toString(dec & 0xff, 16);
+            if ((h.length() & 0x01) == 1)
+                h = '0' + h;
+            hex = hex + h;
+            dec = dec >> 8;
+        }
+        return hex;
+    }
+
+    }

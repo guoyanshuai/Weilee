@@ -1,26 +1,30 @@
 package com.guide.xiaoguo.weilee.activity;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.media.Image;
+
+import android.app.ProgressDialog;
+import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.guide.xiaoguo.weilee.R;
+import com.guide.xiaoguo.weilee.fragment.GPS_Fragment;
+import com.guide.xiaoguo.weilee.fragment.History_Fragment;
+import com.guide.xiaoguo.weilee.fragment.Home_Fragment;
+import com.guide.xiaoguo.weilee.fragment.Mine_Fragment;
+import com.guide.xiaoguo.weilee.fragment.RealTime_Fragment;
+import com.guide.xiaoguo.weilee.mode.Device_Info;
 import com.guide.xiaoguo.weilee.mode.Group_data_mode;
 import com.guide.xiaoguo.weilee.mode.GrouporDevice_data_mode;
 import com.guide.xiaoguo.weilee.mode.UserInfo;
 import com.guide.xiaoguo.weilee.utils.Tools;
-import com.slidingmenu.lib.SlidingMenu;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,11 +35,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends FragmentActivity {
 
-    private Button rt_btn;
-    private Button his_btn;
-    private Button gps_btn;
+
     private UserInfo userInfo;
     private List<Group_data_mode> list_group;
     private List<GrouporDevice_data_mode> list_groupordevice;
@@ -44,16 +46,22 @@ public class MainActivity extends AppCompatActivity {
     private int i = 0;
     private String result;
     private Thread mthread;
-
+    private TabLayout mTablayout;
+//    private ProgressDialog mpd;
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
+    boolean IsFrist = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ActionBar actionBar = getSupportActionBar();/*隐藏标题栏*/
-        actionBar.hide();
-        //Sliding_Menu();
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.home);
         InitView();
-        GetDeviceorGroup();
+        initEvents();
+        if(IsFrist) {
+            IsFrist = false;
+            GetDeviceorGroup();
+        }
     }
 
     public void GetDeviceorGroup() {
@@ -63,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
         list_group.removeAll(list_group);
         list_groupordevice.removeAll(list_groupordevice);
         tools = new Tools();
+//        mpd = ProgressDialog.show(MainActivity.this, null, "加载中...");
+
         mthread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -97,7 +107,14 @@ public class MainActivity extends AppCompatActivity {
                             groupordevice.setGroup_ID(Object.getString("g_id"));
                             Log.i("device", "GetDeviceorGroup:++++ " + groupordevice.getGroup_ID() + "   " + groupordevice.getSN() + "   " + groupordevice.getDeviceName());
                             list_groupordevice.add(groupordevice);
+
                         }
+//                        runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                mpd.dismiss();
+//                            }
+//                        });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -111,66 +128,65 @@ public class MainActivity extends AppCompatActivity {
 
     public void InitView() {
         userInfo = (UserInfo) getApplication();
-        rt_btn = findViewById(R.id.rt_btn);
-        rt_btn.setOnClickListener(new View.OnClickListener() {
+        mTablayout = findViewById(R.id.home_tabLayout);
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.realcontent, new Home_Fragment());
+        fragmentTransaction.commit();
+    }
+
+    public void initEvents() {
+
+        mTablayout.addTab(mTablayout.newTab().setIcon(R.mipmap.hlog).setText("首页"), 0);
+        mTablayout.addTab(mTablayout.newTab().setIcon(R.mipmap.rtlog).setText("实时"), 1);
+        mTablayout.addTab(mTablayout.newTab().setIcon(R.mipmap.gpslog).setText("GPS"), 2);
+        mTablayout.addTab(mTablayout.newTab().setIcon(R.mipmap.hislog).setText("历史"), 3);
+        mTablayout.addTab(mTablayout.newTab().setIcon(R.mipmap.mine).setText("我的"), 4);
+        mTablayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, RT_Activity.class);
-                startActivity(intent);
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab == mTablayout.getTabAt(0)) {
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.realcontent, new Home_Fragment());
+                    fragmentTransaction.commit();
+                } else if (tab == mTablayout.getTabAt(1)) {
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.realcontent, new RealTime_Fragment());
+                    fragmentTransaction.commit();
+                    Log.i("-------", "onTabSelected: RealTime");
+                } else if (tab == mTablayout.getTabAt(2)) {
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.realcontent, new GPS_Fragment());
+                    fragmentTransaction.commit();
+                } else if (tab == mTablayout.getTabAt(3)) {
+
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.realcontent, new History_Fragment());
+                    fragmentTransaction.commit();
+                } else if (tab == mTablayout.getTabAt(4)) {
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.realcontent, new Mine_Fragment());
+                    fragmentTransaction.commit();
+                }
+
             }
-        });
-        his_btn = findViewById(R.id.his_btn);
-        his_btn.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, His_Activity.class);
-                startActivity(intent);
+            public void onTabUnselected(TabLayout.Tab tab) {
             }
-        });
-        gps_btn = findViewById(R.id.gps_btn);
-        gps_btn.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, GPS_Activity.class);
-                startActivity(intent);
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
     }
 
- /*   public void Sliding_Menu() {
-        final SlidingMenu menu = new SlidingMenu(this);
-        // 设置为左滑菜单
-        menu.setMode(SlidingMenu.LEFT);
-        // 设置触摸屏幕的模式
-        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-        // 设置滑动阴影的宽度
-        menu.setShadowWidthRes(R.dimen.shadow_width);
-        // 设置滑动阴影的图像资源
-        menu.setShadowDrawable(R.drawable.shadow);
-        // 设置滑动菜单划出时主页面显示的剩余宽度
-        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-        // 设置渐入渐出效果的值
-        menu.setFadeDegree(0.35f);
-        // 附加在Activity上
-        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
-        // 设置滑动菜单的布局
-        menu.setMenu(R.layout.slidingmenu);
-
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.home2);
-        ImageView imageView = findViewById(R.id.imageView);
-        Tools tools = new Tools();
-        bitmap = tools.toRoundBitmap(bitmap);
-        bitmap = tools.zoomImg(bitmap, 200, 200);
-        imageView.setImageBitmap(bitmap);
-    }*/
-
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if ((System.currentTimeMillis() - mExitTime) > 2000) {
-                Object mHelperUtils;
                 Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
                 mExitTime = System.currentTimeMillis();
-
             } else {
                 finish();
                 System.exit(0);
@@ -180,10 +196,15 @@ public class MainActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mthread!=null)
-        mthread.interrupt();
+        if (mthread != null)
+            mthread.interrupt();
+//        if (mpd != null) {
+//            mpd.dismiss();
+//            mpd = null;
+//        }
     }
 }

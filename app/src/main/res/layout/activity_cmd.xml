@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.guide.xiaoguo.weilee.activity.Cmd_Activity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="	#36648B"
+        android:fitsSystemWindows="true"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_weight="8"
+            android:background="#00ffffff"
+            android:fitsSystemWindows="true"
+            android:text="数据打印"
+            android:textColor="#fff"
+            android:textSize="20dp" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:background="#00ffffff"
+            android:textColor="#fff"
+            android:textSize="15dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp">
+
+        <Button
+            android:id="@+id/cmd_sn_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="读取SN"
+            />
+        <EditText
+            android:id="@+id/cmd_sn"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="20dp">
+        <Button
+            android:id="@+id/cmd_read_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="读取设备版本号"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/cmd_hard_version"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="硬件版本："
+                />
+            <EditText
+                android:id="@+id/cmd_ware_version"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="软件版本："
+
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp">
+
+        <Button
+            android:id="@+id/cmd_erasehis_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="擦除历史数据" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp">
+        <Button
+            android:id="@+id/cmd_eraseprinter_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="擦除打印机数据"/>
+    </LinearLayout>
+
+</LinearLayout>

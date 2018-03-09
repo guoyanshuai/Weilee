@@ -18,19 +18,19 @@
     <application
         android:name=".mode.UserInfo"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/wileelog"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
 
-        <!-- <service -->
-        <!-- android:name="com.baidu.location.f" -->
-        <!-- android:enabled="true" -->
-        <!-- android:process=":remote"></service> -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="gSWCV9BTPaNPDtwj4Ih6O7Qj6bYencan" />
+            android:value="sfqpbR5ZeAsNM2X7SpIhdO9HgXuu0mME" />
 
         <activity
             android:name=".activity.LoginActivity"
@@ -42,23 +42,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.RT_Activity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.GPS_Activity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.His_Activity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".adapter.BluetoothDeviceList"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.Home_Activity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"></activity>
+        <activity
+            android:name=".activity.Dialog_Activity"
+            android:theme="@style/dialogstyle" />
+        <activity android:name=".activity.Printer_Activity" />
+        <service android:name=".service.BleService" />
+        <activity android:name=".activity.Cmd_Activity" />
+        <activity android:name=".activity.Config_Activity" />
+        <activity android:name=".activity.Config2_Activity" />
+        <activity android:name=".activity.Config3_Activity" />
+        <activity android:name=".activity.BLE_Printer_Activity"></activity>
     </application>
 
 </manifest>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@mipmap/head_bg"
+            android:fitsSystemWindows="true"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="#00ffffff"
+                android:fitsSystemWindows="true"
+                android:text="实时监控"
+                android:textColor="#fff"
+                android:textSize="20dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="分组:"
+                android:textAlignment="center"
+                android:textSize="20dp" />
+
+            <Spinner
+                android:id="@+id/rt_g_spinner"
+                android:layout_width="200dp"
+                style="@style/dialog"
+                android:layout_height="match_parent"
+                android:textAlignment="center"></Spinner>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:background="#E8E8E8" />
+
+        <GridView
+            android:id="@+id/rt_gv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:horizontalSpacing="20dp"
+            android:numColumns="2"
+            android:background="#fff"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="10dp"></GridView>
+    </LinearLayout>
+</RelativeLayout>

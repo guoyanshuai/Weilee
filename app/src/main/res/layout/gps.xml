@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.guide.xiaoguo.weilee.activity.RT_Activity">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.guide.xiaoguo.weilee.fragment.GPS_Fragment">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
         android:fitsSystemWindows="true"
-        android:background="	#36648B">
+        android:background="@mipmap/head_bg">
 
         <ImageView
-            android:id="@+id/back_home"
+            android:id="@+id/gps_back_home"
             android:layout_marginLeft="10dp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:layout_height="wrap_content"
-            android:background="@mipmap/backlog"/>
+            />
 
         <Button
             android:layout_width="0dp"
@@ -34,7 +37,6 @@
             android:textSize="20dp" />
 
         <Button
-            android:id="@+id/done"
             android:layout_weight="2"
             android:layout_width="0dp"
             android:layout_height="50dp"
@@ -42,8 +44,7 @@
             android:background="#00ffffff"
             android:textSize="15dp"
             android:layout_gravity="center"
-            android:textColor="#fff"
-            android:text="完成" />
+            android:textColor="#fff" />
     </LinearLayout>
 
     <LinearLayout
@@ -92,8 +93,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:background="#E8E8E8"/>
 
     <LinearLayout
@@ -134,8 +135,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:background="#E8E8E8"/>
 
     <LinearLayout
@@ -155,7 +156,7 @@
                 android:id="@+id/gps_b_time"
                 android:layout_width="0dp"
                 android:layout_weight="2"
-                android:textSize="10dp"
+                android:textSize="12dp"
                 android:layout_height="wrap_content"
                 android:drawableRight="@mipmap/timeright"/>
         </LinearLayout>
@@ -172,13 +173,23 @@
                 android:id="@+id/gps_e_time"
                 android:layout_width="0dp"
                 android:layout_weight="2"
-                android:textSize="10dp"
+                android:textSize="12dp"
                 android:layout_height="wrap_content"
                 android:drawableRight="@mipmap/timeright"/>
         </LinearLayout>
     </LinearLayout>
+    <Button
+        android:id="@+id/gps_done"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:textSize="15dp"
+        android:background="@mipmap/submit"
+        android:layout_gravity="center"
+        android:textColor="#fff"
+        android:text="查   询" />
     <com.baidu.mapapi.map.MapView
-        android:id="@+id/map"
+        android:id="@+id/gps_map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></com.baidu.mapapi.map.MapView>
 </LinearLayout>
+</RelativeLayout>

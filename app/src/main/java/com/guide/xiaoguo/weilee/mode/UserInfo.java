@@ -23,21 +23,22 @@ public class UserInfo extends Application {
     private String position;//职务
     private List<Group_data_mode> group;
     private List<GrouporDevice_data_mode> groupordevice;
+    public static  ArrayList<RTorHis_data_mode> his_printer_list = new ArrayList<>();
     private String url = "http://118.178.16.10:8080/appData/get.jsp";
 
     @Override
     public void onCreate() {
         super.onCreate();
-        company_ID = "company_ID";
-        companyName = "companyName";
-        account_ID = "account_ID";
-        account = "account";
-        passWord = "passWord";
-        userName = "userName";
-        tel = "tel";
-        mail = "mail";
-        department = "department";
-        position = "position";
+        company_ID = " ";
+        companyName = " ";
+        account_ID = " ";
+        account = " ";
+        passWord = " ";
+        userName = " ";
+        tel = " ";
+        mail = " ";
+        department = " ";
+        position = " ";
     }
 
     public String getUrl() {

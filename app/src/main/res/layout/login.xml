@@ -9,7 +9,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#36648B"
+        android:background="@mipmap/head_bg"
         android:fitsSystemWindows="true"
         android:text="用户登录"
         android:textAlignment="center"
@@ -41,7 +41,7 @@
                 android:layout_height="50dp"
                 android:drawableLeft="@mipmap/userleft"
                 android:hint="用户名"
-                android:imeOptions="actionDone"
+                android:imeOptions="actionNext"
                 android:inputType="text"
                 android:singleLine="true"
                 android:textAlignment="center" />

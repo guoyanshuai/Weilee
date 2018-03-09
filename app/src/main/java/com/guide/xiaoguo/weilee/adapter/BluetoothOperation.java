@@ -12,7 +12,8 @@ import android.util.Log;
 
 import com.android.print.sdk.PrinterConstants.Connect;
 import com.android.print.sdk.PrinterInstance;
-import com.guide.xiaoguo.weilee.activity.His_Activity;
+import com.guide.xiaoguo.weilee.activity.Printer_Activity;
+import com.guide.xiaoguo.weilee.fragment.History_Fragment;
 import com.guide.xiaoguo.weilee.mode.IPrinterOpertion;
 
 import java.lang.reflect.Method;
@@ -192,11 +193,11 @@ public class BluetoothOperation implements IPrinterOpertion {
 			Intent enableIntent = new Intent(
 					BluetoothAdapter.ACTION_REQUEST_ENABLE);
 			((Activity) mContext).startActivityForResult(enableIntent,
-					His_Activity.ENABLE_BT);
+					Printer_Activity.ENABLE_BT);
 		} else {
 			Intent intent = new Intent(mContext, BluetoothDeviceList.class);
 			((Activity) mContext).startActivityForResult(intent,
-					His_Activity.CONNECT_DEVICE);
+					Printer_Activity.CONNECT_DEVICE);
 		}
 	}
 }

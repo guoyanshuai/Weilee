@@ -1,7 +1,7 @@
 package com.guide.xiaoguo.weilee.fragment;
 
 
-import android.content.Context;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,11 +14,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
@@ -41,7 +39,6 @@ import com.baidu.mapapi.map.Polyline;
 import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.guide.xiaoguo.weilee.R;
-import com.guide.xiaoguo.weilee.activity.GPS_Activity;
 import com.guide.xiaoguo.weilee.mode.GPS_data_mode;
 import com.guide.xiaoguo.weilee.mode.Group_data_mode;
 import com.guide.xiaoguo.weilee.mode.GrouporDevice_data_mode;
@@ -53,6 +50,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -60,11 +58,14 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class GPS_Fragment extends Fragment {
-    private Button done;
+
+
+    private Button gps_done;
     private EditText gps_b_time;
     private EditText gps_e_time;
     private Spinner gps_d_spinner;
@@ -104,36 +105,41 @@ public class GPS_Fragment extends Fragment {
     private ArrayAdapter<String> D_spAdapter;
     List<GPS_data_mode> list_gps = new ArrayList<>();
     GPS_data_mode gps_data_mode;
-    View view;
+
+    ProgressDialog gpd;
+    View main_view;
+
 
     public GPS_Fragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         SDKInitializer.initialize(getActivity().getApplicationContext());
-        view = inflater.inflate(R.layout.gps, null);
+        main_view = inflater.inflate(R.layout.gps, container, false);
         initView();
         initLocation();
         Dealwith();
-        return view;
+        return main_view;
     }
 
     private void initView() {
-        map = (MapView)view.findViewById(R.id.map);
+        map = main_view.findViewById(R.id.gps_map);
         //把视图对象转成BaiduMap
         mBaidu = map.getMap();
         mBaidu.setMapType(BaiduMap.MAP_TYPE_NORMAL);
         tools = new Tools();
         userInfo = (UserInfo) getActivity().getApplication();
-        gps_b_time = view.findViewById(R.id.gps_b_time);
+        gps_b_time = main_view.findViewById(R.id.gps_b_time);
         gps_b_time.setText(tools.getCurrentTime());
-        gps_e_time = view.findViewById(R.id.gps_e_time);
+        gps_b_time.setFocusableInTouchMode(false);
+        gps_e_time = main_view.findViewById(R.id.gps_e_time);
         gps_e_time.setText(tools.getCurrentTime());
-        gps_g_spinner = view.findViewById(R.id.gps_g_spinner);
+        gps_e_time.setFocusableInTouchMode(false);
+        gps_g_spinner = main_view.findViewById(R.id.gps_g_spinner);
         list_group = userInfo.getGroup();
         Sp_Gitem = new String[list_group.size() - 1];
         for (i = 1; i < list_group.size(); i++) {
@@ -142,8 +148,9 @@ public class GPS_Fragment extends Fragment {
             Log.i("ITEM", "InitView:+++++22222 " + Sp_Gitem[i - 1]);
         }
         ArrayAdapter<String> G_spAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, Sp_Gitem);
+        G_spAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         gps_g_spinner.setAdapter(G_spAdapter);
-        gps_d_spinner = view.findViewById(R.id.gps_d_spinner);
+        gps_d_spinner = main_view.findViewById(R.id.gps_d_spinner);
         list_groupordevice = userInfo.getGroupordevice();
         Sp_Ditem = new String[list_groupordevice.size()];
         for (i = 0; i < list_groupordevice.size(); i++) {
@@ -152,10 +159,10 @@ public class GPS_Fragment extends Fragment {
             Log.i("ITEM", "InitView:-----11111" + Sp_Ditem[i]);
         }
         D_spAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, Sp_Ditem);
+        D_spAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         gps_d_spinner.setAdapter(D_spAdapter);
-        check_RG = view.findViewById(R.id.check_RG);
-        done = view.findViewById(R.id.done);
-
+        check_RG = main_view.findViewById(R.id.check_RG);
+        gps_done = main_view.findViewById(R.id.gps_done);
     }
 
     public void Dealwith() {
@@ -187,7 +194,7 @@ public class GPS_Fragment extends Fragment {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 int rg_ID = radioGroup.getCheckedRadioButtonId();
-                RadioButton rb = getActivity().findViewById(rg_ID);
+                RadioButton rb = main_view.findViewById(rg_ID);
                 Log.i("setOnCheckedChange", "onCheckedChanged: " + rb.getText().toString());
                 String checkStr = rb.getText().toString();
                 if (checkStr.equals("实时数据")) {
@@ -203,23 +210,38 @@ public class GPS_Fragment extends Fragment {
         gps_b_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tools.GetDataTime(getContext(),gps_b_time.getText().toString(), gps_b_time);
+                tools.GetDataTime(getActivity(), gps_b_time.getText().toString(), gps_b_time);
             }
         });
         gps_e_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tools.GetDataTime(getContext(),gps_b_time.getText().toString(), gps_e_time);
+                tools.GetDataTime(getActivity(), gps_e_time.getText().toString(), gps_e_time);
             }
         });
-        done.setOnClickListener(new View.OnClickListener() {
+        gps_done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mBaidu.clear();
                 if (timer != null) {
                     timer.cancel();
+                    timer = null;
                 }
-                GetGPSData();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                Date b_date = null;
+                Date e_date = null;
+                try {
+                    b_date = sdf.parse(gps_b_time.getText().toString());
+                    e_date = sdf.parse(gps_e_time.getText().toString());
+                    if (b_date.getTime() > e_date.getTime()) {
+                        Toast.makeText(getActivity(), "请检查开始与结束时间是否冲突!", Toast.LENGTH_LONG).show();
+                    } else {
+                        gpd = ProgressDialog.show(getActivity(), null, "正在获取数据...");
+                        GetGPSData();
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -253,7 +275,8 @@ public class GPS_Fragment extends Fragment {
             Log.i("New_SP_Ditem", "Select_Group_device:000000 " + New_SP_Ditem[i]);
         }
 
-        D_spAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, New_SP_Ditem);
+        D_spAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, New_SP_Ditem);
+        D_spAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         gps_d_spinner.setAdapter(D_spAdapter);
     }
 
@@ -269,6 +292,7 @@ public class GPS_Fragment extends Fragment {
     }
 
     public void GetGPSData() {
+        list_gps.removeAll(list_gps);
         gps_thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -306,11 +330,27 @@ public class GPS_Fragment extends Fragment {
                                     jing = Double.valueOf(gps_json.getString("lon"));
                                 }
                             }
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (!(list_gps.size() >= 1)) {
+                                        Toast.makeText(getActivity(), "无定位数据！", Toast.LENGTH_LONG).show();
+                                    }
+                                    if (gpd != null) {
+                                        gpd.dismiss();
+                                        gpd = null;
+                                    }
+                                }
+                            });
                         } else {
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(getActivity(), "无数据！", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getActivity(), "无定位数据！", Toast.LENGTH_LONG).show();
+                                    if (gpd != null) {
+                                        gpd.dismiss();
+                                        gpd = null;
+                                    }
                                 }
                             });
                         }
@@ -338,7 +378,8 @@ public class GPS_Fragment extends Fragment {
                                     LatandLon(list_gps);
                                     addCustomElementsDemo();
                                     Refresh();
-
+                                    list_gps.removeAll(list_gps);
+                                    list_gps = null;
                                 }
                             }
                         });
@@ -430,7 +471,10 @@ public class GPS_Fragment extends Fragment {
                     p--;
                     Log.i("pppppppppppppp", "handleMessage: " + p);
                 } else {
-                    timer.cancel();
+                    if (timer != null) {
+                        timer.cancel();
+                        timer = null;
+                    }
                     MapStatus mapStatus1 = new MapStatus.Builder().target(k).zoom(6).build();
                     MapStatusUpdate msu1 = MapStatusUpdateFactory.newMapStatus(mapStatus);
                 }
@@ -450,7 +494,7 @@ public class GPS_Fragment extends Fragment {
         };
 
         timer = new Timer(true);
-        timer.schedule(task, 900, 1500);
+        timer.schedule(task, 900, 2000);
     }
 
     private void initLocation() {
@@ -484,7 +528,7 @@ public class GPS_Fragment extends Fragment {
         public void onReceiveLocation(BDLocation location) {
             //设置我当前位置的数据
             MyLocationData data = new MyLocationData.Builder()//
-                    .accuracy(location.getRadius())//
+                    .accuracy(20)//
                     .direction(location.getDirection())//
                     .latitude(location.getLatitude())//
                     .longitude(location.getLongitude())//
@@ -513,21 +557,26 @@ public class GPS_Fragment extends Fragment {
             }
         }
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         map.onDestroy();
         if (gps_thread != null)
             gps_thread.interrupt();
-    }
+        if (gpd != null) {
+            gpd.dismiss();
+            gpd = null;
+        }
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+        if (mLocationClient != null)
+        {
+            mLocationClient =null;
+        }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        mBaidu.setMyLocationEnabled(true);
-        if (!mLocationClient.isStarted()&&mLocationClient!=null)
-            //开启定位
-            mLocationClient.start();
     }
 
     @Override
@@ -538,6 +587,22 @@ public class GPS_Fragment extends Fragment {
         mLocationClient.stop();
         if (gps_thread != null)
             gps_thread.interrupt();
+        if (gpd != null) {
+            gpd.dismiss();
+            gpd = null;
+        }
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        mBaidu.setMyLocationEnabled(true);
+        if (!mLocationClient.isStarted())
+            //开启定位
+            mLocationClient.start();
     }
 }
